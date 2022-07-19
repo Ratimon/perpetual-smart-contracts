@@ -72,6 +72,14 @@ const config: HardhatUserConfig = {
       97: "0xA3234ceaaf5877239738a71B1ea24b86f8EF7D5C",
     },
 
+    usdc: {
+      1337: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+      1: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+      4: '0x27415c30d8c87437becbd4f98474f26e712047f4', //Mapped from https://github.com/opynfinance/squeeth-monorepo/blob/main/packages/hardhat/tasks/utils.ts
+      5: '0x07865c6E87B9F70255377e024ace6630C1Eaa37F', //Mapped from https://goerli.etherscan.io/address/0x07865c6e87b9f70255377e024ace6630c1eaa37f
+      56: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", //Mapped from https://bscscan.com/token/0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d
+    },
+
 
 
 
