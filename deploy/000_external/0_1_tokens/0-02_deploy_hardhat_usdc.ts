@@ -32,11 +32,16 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
 
   const  ERC20Args : {[key: string]: any} = {}; 
-  
   ERC20Args[`tokenName`] = "MockUSDC";
 
   const deploymentName = "TokenUSDC"
-  const ERC20Result = await deploy(deploymentName, {contract: "MockERC20",from: deployer,args: Object.values(ERC20Args),log: true,skipIfAlreadyDeployed: true});
+  const ERC20Result = await deploy(deploymentName, {
+    contract: "MockERC20",
+    from: deployer,
+    args: Object.values(ERC20Args),
+    log: true,
+    skipIfAlreadyDeployed: true
+  });
     
   log("------------------ii---------ii---------------------")
   log(`Could be found at ....`)
@@ -44,7 +49,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   if (ERC20Result.newlyDeployed) {
     
-    log(`contract address (MockWeth): ${chalk.green(ERC20Result.address)} using ${ERC20Result.receipt?.gasUsed} gas`);
+    log(`contract address: ${chalk.green(ERC20Result.address)} using ${ERC20Result.receipt?.gasUsed} gas`);
 
     for(var i in ERC20Args){
       log(chalk.yellow( `Argument: ${i} - value: ${ERC20Args[i]}`));
