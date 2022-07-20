@@ -8,16 +8,8 @@ import { DeployFunction, DeploymentSubmission } from 'hardhat-deploy/types';
 import erc20abi from "../../../assets/abis/external/erc20.json";
 import wethabi from "../../../assets/abis/external/weth.json";
 
-
-import {
-  utils,
-} from 'ethers';
-
-const { 
-  formatUnits,
-  parseEther,
-  parseUnits
-} = utils;
+import { utils} from 'ethers';
+const { formatUnits,parseEther,parseUnits} = utils;
 
   
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
