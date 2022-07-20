@@ -5,8 +5,27 @@ import chalk from 'chalk';
 import {HardhatRuntimeEnvironment} from 'hardhat/types';
 import { DeployFunction, DeploymentSubmission } from 'hardhat-deploy/types';
 
-import WETH_ABI from "../../../assets/abis/external/WETH.json";
-import ERC20_ABI from "../../../assets/abis/external/ERC20.json";
+import {
+    abi as FACTORY_ABI,
+    bytecode as FACTORY_BYTECODE,
+  } from '@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json'
+
+import {
+    abi as SWAP_ROUTER_ABI,
+    bytecode as SWAP_ROUTER_BYTECODE,
+  } from '@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json'
+  
+  import {
+    abi as POSITION_MANAGER_ABI,
+    bytecode as POSITION_MANAGER_BYTECODE,
+  } from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
+  
+  
+  import {
+    abi as QUOTER_ABI,
+    bytecode as QUOTER_BYTECODE,
+  } from '@uniswap/v3-periphery/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json'
+
 
 import { utils} from 'ethers';
 const { formatUnits,parseEther,parseUnits} = utils;
@@ -18,8 +37,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const {deploy, getOrNull, log ,save } = deployments;
     const {
       deployer,
-      WETH,
-      USDC
+      UNISWAP_FACTORY
     } = await getNamedAccounts();
 
     log(chalk.cyan(`.....`));
@@ -32,28 +50,18 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     log("----------------------------------------------------");
 
 
-    const wethSubmission : DeploymentSubmission = {
-      abi: WETH_ABI,
-      address: WETH
+    const UniswapV3FactorySubmission : DeploymentSubmission = {
+      abi: FACTORY_ABI,
+      address: UNISWAP_FACTORY,
+      bytecode: FACTORY_BYTECODE
     }
-    const wethDeploymentName = `TokenWETH`
-    await save(wethDeploymentName, wethSubmission);
-    let existingWETH = await getOrNull(wethDeploymentName);
-    if(existingWETH) {
-      log(`Deployment Saved: ${wethDeploymentName} with address ${chalk.green(existingWETH.address)}`);
+    const UniswapV3FactoryDeploymentName = `UniswapV3Factory`
+    await save(UniswapV3FactoryDeploymentName, UniswapV3FactorySubmission);
+    let existingUniswapV3Factory = await getOrNull(UniswapV3FactoryDeploymentName);
+    if(existingUniswapV3Factory) {
+      log(`Deployment Saved: ${UniswapV3FactoryDeploymentName} with address ${chalk.green(existingUniswapV3Factory.address)}`);
     }
 
-
-    const usdcSubmission : DeploymentSubmission = {
-      abi: ERC20_ABI,
-      address: USDC
-    }
-    const usdcDeploymentName = `TokenUSDC`
-    await save(usdcDeploymentName, usdcSubmission);
-    let existingUSDC = await getOrNull(usdcDeploymentName);
-    if(existingUSDC) {
-      log(`Deployment Saved: ${usdcDeploymentName} with address ${chalk.green(existingUSDC.address)}`);
-    }
 
 
 
@@ -65,7 +73,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   
 }
 export default func;
-func.tags = ["0-1-00","0-1","tokens",'external'];
+func.tags = ["0-2-00","0-2","uniswap",'external'];
+func.dependencies = ["tokens"];
+
 
 // func.skip = async (hre) => (await hre.deployments.getNetworkName()) == 'hardhat'; //skip when it is  hardhat
 // func.skip = async () => true;

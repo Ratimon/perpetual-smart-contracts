@@ -61,23 +61,34 @@ const config: HardhatUserConfig = {
     dev: 1,
 
 
-    zero: "0x0000000000000000000000000000000000000000",
+    ZERO: "0x0000000000000000000000000000000000000000",
 
     // mainnet fork testing
-    weth: {
+    WETH: {
       1337: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
       1: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
       4: "0xc778417E063141139Fce010982780140Aa0cD5Ab", //Mapped from https://rinkeby.etherscan.io/address/0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D#readContract
-      56: "0x2170ed0880ac9a755fd29b2688956bd959f933f8", //Mapped from https://bscscan.com/address/0x2170ed0880ac9a755fd29b2688956bd959f933f8
-      97: "0xA3234ceaaf5877239738a71B1ea24b86f8EF7D5C",
+      5: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",  //Mapped from https://goerli.etherscan.io/address/0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6#writeContract
+      10: "0x4200000000000000000000000000000000000006"  //Mapped from https://docs.uniswap.org/protocol/reference/deployments
     },
 
-    usdc: {
+    USDC: {
       1337: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
       1: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
       4: '0x27415c30d8c87437becbd4f98474f26e712047f4', //Mapped from https://github.com/opynfinance/squeeth-monorepo/blob/main/packages/hardhat/tasks/utils.ts
       5: '0x07865c6E87B9F70255377e024ace6630C1Eaa37F', //Mapped from https://goerli.etherscan.io/address/0x07865c6e87b9f70255377e024ace6630c1eaa37f
-      56: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", //Mapped from https://bscscan.com/token/0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d
+      10: "0x7F5c764cBc14f9669B88837ca1490cCa17c31607"  //Mapped from https://docs.uniswap.org/protocol/reference/deployments
+
+    },
+
+
+    UNISWAP_FACTORY: {
+      1337: "0x1F98431c8aD98523631AE4a59f267346ea31F984",
+      1: "0x1F98431c8aD98523631AE4a59f267346ea31F984",  //Mapped from  https://docs.uniswap.org/protocol/reference/deployments
+      4: "0x1F98431c8aD98523631AE4a59f267346ea31F984", //Mapped from https://docs.uniswap.org/protocol/reference/deployments
+      5: "0x1F98431c8aD98523631AE4a59f267346ea31F984",  //https://docs.uniswap.org/protocol/reference/deployments
+      10: "0x1F98431c8aD98523631AE4a59f267346ea31F984"  //Mapped from https://docs.uniswap.org/protocol/reference/deployments
+
     },
 
 
