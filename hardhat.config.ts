@@ -78,7 +78,6 @@ const config: HardhatUserConfig = {
       4: '0x27415c30d8c87437becbd4f98474f26e712047f4', //Mapped from https://github.com/opynfinance/squeeth-monorepo/blob/main/packages/hardhat/tasks/utils.ts
       5: '0x07865c6E87B9F70255377e024ace6630C1Eaa37F', //Mapped from https://goerli.etherscan.io/address/0x07865c6e87b9f70255377e024ace6630c1eaa37f
       10: "0x7F5c764cBc14f9669B88837ca1490cCa17c31607"  //Mapped from https://docs.uniswap.org/protocol/reference/deployments
-
     },
 
 
@@ -88,9 +87,31 @@ const config: HardhatUserConfig = {
       4: "0x1F98431c8aD98523631AE4a59f267346ea31F984", //Mapped from https://docs.uniswap.org/protocol/reference/deployments
       5: "0x1F98431c8aD98523631AE4a59f267346ea31F984",  //https://docs.uniswap.org/protocol/reference/deployments
       10: "0x1F98431c8aD98523631AE4a59f267346ea31F984"  //Mapped from https://docs.uniswap.org/protocol/reference/deployments
-
     },
 
+    SWAP_ROUTER: {
+      1337: "0xE592427A0AEce92De3Edee1F18E0157C05861564",
+      1: "0xE592427A0AEce92De3Edee1F18E0157C05861564",  //Mapped from  https://docs.uniswap.org/protocol/reference/deployments
+      4: "0xE592427A0AEce92De3Edee1F18E0157C05861564", //Mapped from https://docs.uniswap.org/protocol/reference/deployments
+      5: "0xE592427A0AEce92De3Edee1F18E0157C05861564",  //https://docs.uniswap.org/protocol/reference/deployments
+      10: "0xE592427A0AEce92De3Edee1F18E0157C05861564"  //Mapped from https://docs.uniswap.org/protocol/reference/deployments
+    },
+
+    NONFUNGIBLE_POSITION_MANAGER: {
+      1337: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
+      1: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",  //Mapped from  https://docs.uniswap.org/protocol/reference/deployments
+      4: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88", //Mapped from https://docs.uniswap.org/protocol/reference/deployments
+      5: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",  //https://docs.uniswap.org/protocol/reference/deployments
+      10: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"  //Mapped from https://docs.uniswap.org/protocol/reference/deployments
+    },
+
+    QUOTER: {
+      1337: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",
+      1: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",  //Mapped from  https://docs.uniswap.org/protocol/reference/deployments
+      4: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6", //Mapped from https://docs.uniswap.org/protocol/reference/deployments
+      5: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",  //https://docs.uniswap.org/protocol/reference/deployments
+      10: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6"  //Mapped from https://docs.uniswap.org/protocol/reference/deployments
+    }
 
 
 

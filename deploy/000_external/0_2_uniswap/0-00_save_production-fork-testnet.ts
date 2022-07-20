@@ -37,7 +37,10 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const {deploy, getOrNull, log ,save } = deployments;
     const {
       deployer,
-      UNISWAP_FACTORY
+      UNISWAP_FACTORY,
+      SWAP_ROUTER,
+      NONFUNGIBLE_POSITION_MANAGER,
+      QUOTER
     } = await getNamedAccounts();
 
     log(chalk.cyan(`.....`));
@@ -62,9 +65,42 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       log(`Deployment Saved: ${UniswapV3FactoryDeploymentName} with address ${chalk.green(existingUniswapV3Factory.address)}`);
     }
 
+    const SwapRouterSubmission : DeploymentSubmission = {
+      abi: SWAP_ROUTER_ABI,
+      address: SWAP_ROUTER,
+      bytecode: SWAP_ROUTER_BYTECODE
+    }
+    const SwapRouterDeploymentName = `SwapRouter`
+    await save(SwapRouterDeploymentName, SwapRouterSubmission);
+    let existingSwapRouter = await getOrNull(SwapRouterDeploymentName);
+    if(existingSwapRouter) {
+      log(`Deployment Saved: ${SwapRouterDeploymentName} with address ${chalk.green(existingSwapRouter.address)}`);
+    }
+
+    const NonfungiblePositionManagerSubmission : DeploymentSubmission = {
+      abi: POSITION_MANAGER_ABI,
+      address: NONFUNGIBLE_POSITION_MANAGER,
+      bytecode: POSITION_MANAGER_BYTECODE
+    }
+    const PositionManagerDeploymentName = `NonfungiblePositionManager`
+    await save(PositionManagerDeploymentName, NonfungiblePositionManagerSubmission);
+    let existingPositionManager = await getOrNull(PositionManagerDeploymentName);
+    if(existingPositionManager) {
+      log(`Deployment Saved: ${PositionManagerDeploymentName} with address ${chalk.green(existingPositionManager.address)}`);
+    }
 
 
-
+    const QUOTERSubmission : DeploymentSubmission = {
+      abi: QUOTER_ABI,
+      address: QUOTER,
+      bytecode: QUOTER_BYTECODE
+    }
+    const QuoterDeploymentName = `Quoter`
+    await save(QuoterDeploymentName, QUOTERSubmission);
+    let existingQuoter = await getOrNull(QuoterDeploymentName);
+    if(existingQuoter) {
+      log(`Deployment Saved: ${QuoterDeploymentName} with address ${chalk.green(existingQuoter.address)}`);
+    }
 
     log(chalk.cyan(`Ending Script.....`));
     log(chalk.cyan(`.....`));
