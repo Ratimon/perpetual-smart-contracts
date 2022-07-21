@@ -5,13 +5,7 @@ import chalk from 'chalk';
 import {HardhatRuntimeEnvironment} from 'hardhat/types';
 import {DeployFunction} from 'hardhat-deploy/types';
 
-import {
-    abi as POSITION_MANAGER_ABI,
-    bytecode as POSITION_MANAGER_BYTECODE,
-  } from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
-
-import {utils,constants} from 'ethers';
-
+import {utils,} from 'ethers';
 
 const { formatUnits,parseEther,parseUnits} = utils;
 
@@ -19,7 +13,7 @@ const { formatUnits,parseEther,parseUnits} = utils;
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     
   const {deployments, getNamedAccounts, network} = hre;
-  const {deploy, execute ,get, log } = deployments;
+  const {deploy, execute , log } = deployments;
   const {deployer} = await getNamedAccounts();
 
   log(chalk.cyan(`.....`));
@@ -36,42 +30,43 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   log("----------------------------------------------------")
 
 
-  const  Args : {[key: string]: any} = {};
-  
-  Args[`factory`] = (await get('UniswapV3Factory')).address;;
-  Args[`WETH9`] = (await get('TokenWETH')).address;
-  Args[`tokenDescriptor_`] = constants.AddressZero
 
-  const deploymentName = "NonfungiblePositionManager"
-  const Result = await deploy(deploymentName, {
+  const  ERC20Args : {[key: string]: any} = {}; 
+  ERC20Args[`tokenName`] = "MockUSDC";
+
+  const deploymentName = "TokenUSDC"
+  const ERC20Result = await deploy(deploymentName, {
+    contract: "MockERC20",
     from: deployer,
-    args: Object.values(Args),
+    args: Object.values(ERC20Args),
     log: true,
-    contract: {
-      abi: POSITION_MANAGER_ABI,
-      bytecode: POSITION_MANAGER_BYTECODE
-    }
+    skipIfAlreadyDeployed: true
   });
-  
+    
   log("------------------ii---------ii---------------------")
   log(`Could be found at ....`)
   log(chalk.yellow(`/deployment/${network.name}/${deploymentName}.json`))
 
-  if (Result.newlyDeployed) {
+  if (ERC20Result.newlyDeployed) {
     
-    log(`contract address: ${chalk.green(Result.address)} using ${Result.receipt?.gasUsed} gas`);
+    log(`contract address: ${chalk.green(ERC20Result.address)} using ${ERC20Result.receipt?.gasUsed} gas`);
 
-    for(var i in Args){
-      log(chalk.yellow( `Argument: ${i} - value: ${Args[i]}`));
+    for(var i in ERC20Args){
+      log(chalk.yellow( `Argument: ${i} - value: ${ERC20Args[i]}`));
     }
+
+    await execute(
+      deploymentName,{from: deployer, log: true},
+      "mint",deployer,parseEther('100000000')
+      );      
 
     if(hre.network.tags.production || hre.network.tags.staging){
 
       try {
           
           await hre.run("verify:verify", {
-              address: Result.address,
-              constructorArguments: Object.values(Args),
+              address: ERC20Result.address,
+              constructorArguments: Object.values(ERC20Args),
           });
 
           }
@@ -88,8 +83,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     
 }
 export default func;
-func.tags = ["0-2-03","0-2","nonfungible-manager","uniswap",'external'];
-func.dependencies = ["0-2-02"];
+func.tags = ["B-1-02","0-1","usdc","tokens",'external'];
+func.dependencies = ["B-1-01"];
 
 
 func.skip = async function (hre: HardhatRuntimeEnvironment) {

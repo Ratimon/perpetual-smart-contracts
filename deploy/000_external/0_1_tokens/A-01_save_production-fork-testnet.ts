@@ -65,7 +65,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   
 }
 export default func;
-func.tags = ["0-1-00","0-1","tokens",'external'];
+func.tags = ["A-1-01","0-1","weth","usdc","tokens",'external'];
 
 // func.skip = async (hre) => (await hre.deployments.getNetworkName()) == 'hardhat'; //skip when it is  hardhat
 // func.skip = async () => true;

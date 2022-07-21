@@ -6,11 +6,11 @@ import {HardhatRuntimeEnvironment} from 'hardhat/types';
 import {DeployFunction} from 'hardhat-deploy/types';
 
 import {
-    abi as SWAP_ROUTER_ABI,
-    bytecode as SWAP_ROUTER_BYTECODE,
-  } from '@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json'
+    abi as POSITION_MANAGER_ABI,
+    bytecode as POSITION_MANAGER_BYTECODE,
+  } from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 
-import {utils,} from 'ethers';
+import {utils,constants} from 'ethers';
 
 
 const { formatUnits,parseEther,parseUnits} = utils;
@@ -40,15 +40,16 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   
   Args[`factory`] = (await get('UniswapV3Factory')).address;;
   Args[`WETH9`] = (await get('TokenWETH')).address;
+  Args[`tokenDescriptor_`] = constants.AddressZero
 
-  const deploymentName = "SwapRouter"
+  const deploymentName = "NonfungiblePositionManager"
   const Result = await deploy(deploymentName, {
     from: deployer,
     args: Object.values(Args),
     log: true,
     contract: {
-      abi: SWAP_ROUTER_ABI,
-      bytecode: SWAP_ROUTER_BYTECODE
+      abi: POSITION_MANAGER_ABI,
+      bytecode: POSITION_MANAGER_BYTECODE
     }
   });
   
@@ -87,8 +88,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     
 }
 export default func;
-func.tags = ["0-2-02","0-2","swap-router","uniswap",'external'];
-func.dependencies = ["0-2-01"];
+func.tags = ["B-2-03","0-2","nonfungible-manager","uniswap",'external'];
+func.dependencies = ["B-2-02"];
 
 
 func.skip = async function (hre: HardhatRuntimeEnvironment) {
