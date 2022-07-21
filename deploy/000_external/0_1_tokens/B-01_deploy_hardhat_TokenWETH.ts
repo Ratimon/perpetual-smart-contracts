@@ -31,14 +31,14 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
 
 
-  const  WETHArgs : {[key: string]: any} = {}; 
-  WETHArgs[`tokenName`] = "MockWETH";
+  const  Args : {[key: string]: any} = {}; 
+  Args[`tokenName`] = "MockWETH";
 
   const deploymentName = "TokenWETH"
-  const WETHResult = await deploy(deploymentName,{
+  const Result = await deploy(deploymentName,{
     contract: "MockWeth",
     from: deployer,
-    args: Object.values(WETHArgs),
+    args: Object.values(Args),
     log: true,
     skipIfAlreadyDeployed: true}
   );
@@ -47,12 +47,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   log(`Could be found at ....`)
   log(chalk.yellow(`/deployment/${network.name}/${deploymentName}.json`))
 
-  if (WETHResult.newlyDeployed) {
+  if (Result.newlyDeployed) {
     
-    log(`contract address: ${chalk.green(WETHResult.address)} using ${WETHResult.receipt?.gasUsed} gas`);
+    log(`contract address: ${chalk.green(Result.address)} using ${Result.receipt?.gasUsed} gas`);
 
-    for(var i in WETHArgs){
-      log(chalk.yellow( `Argument: ${i} - value: ${WETHArgs[i]}`));
+    for(var i in Args){
+      log(chalk.yellow( `Argument: ${i} - value: ${Args[i]}`));
     }
 
     await execute(
@@ -65,8 +65,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       try {
           
           await hre.run("verify:verify", {
-              address: WETHResult.address,
-              constructorArguments: Object.values(WETHArgs),
+              address: Result.address,
+              constructorArguments: Object.values(Args),
           });
 
           }
@@ -83,7 +83,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     
 }
 export default func;
-func.tags = ["B-1-01","0-1","weth","tokens",'external'];
+func.tags = ["01-B1","01","weth","tokens",'external'];
 // func.dependencies = ["0-1-00"];
 
 

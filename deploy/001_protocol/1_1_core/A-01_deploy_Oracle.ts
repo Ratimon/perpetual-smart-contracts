@@ -5,13 +5,7 @@ import chalk from 'chalk';
 import {HardhatRuntimeEnvironment} from 'hardhat/types';
 import {DeployFunction} from 'hardhat-deploy/types';
 
-import {
-    abi as FACTORY_ABI,
-    bytecode as FACTORY_BYTECODE,
-  } from '@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json'
-
 import {utils,} from 'ethers';
-
 
 const { formatUnits,parseEther,parseUnits} = utils;
 
@@ -36,18 +30,20 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   log("----------------------------------------------------")
 
 
+
   const  Args : {[key: string]: any} = {}; 
 
-  const deploymentName = "UniswapV3Factory"
-  const Result = await deploy(deploymentName, {
+  // OracleChainlinkMock_USD_per_ETH
+
+  //  eg. if ETH price is $3000
+  const deploymentName = "OracleTWAP_USD_per_ETH"
+  const Result = await deploy(deploymentName,{
+    contract: "Oracle",
     from: deployer,
     args: Object.values(Args),
     log: true,
-    contract: {
-      abi: FACTORY_ABI,
-      bytecode: FACTORY_BYTECODE
-    }
-  });
+    skipIfAlreadyDeployed: true}
+  );
   
   log("------------------ii---------ii---------------------")
   log(`Could be found at ....`)
@@ -61,7 +57,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       log(chalk.yellow( `Argument: ${i} - value: ${Args[i]}`));
     }
 
-    if(hre.network.tags.production || hre.network.tags.staging){
+    // await execute(
+    //   deploymentName,{from: deployer, log: true},
+    //   "mint",deployer,parseEther('100000000')
+    //   );      
+
+    if( network.name != 'hardhat' && ( hre.network.tags.production || hre.network.tags.staging)){
 
       try {
           
@@ -84,35 +85,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     
 }
 export default func;
-func.tags = ["02-B1","02","position-manager","uniswap",'external'];
-
-
-func.skip = async function (hre: HardhatRuntimeEnvironment) {
-
-
-  //not use for mainnet fork test,generate local host, or production testnet
-  
-  //1) mainnet fork test    hre.network.name == 'hardhat' && isMainnetForking == true
-  //2) generate local host  hre.network.name == 'localhost' && isMainnetForking == true
-  //3) production           hre.network.name == 'bscMainnet' && isMainnetForking == false
-  //4) testnet              hre.network.name == 'bscTestnet' && isMainnetForking == false
-
-
-  //use for generate hardhat, unit test
-  //1) generate hardhat     hre.network.name == 'hardhat' && isMainnetForking == false
-  //2) unit test            hre.network.name == 'hardhat' && isMainnetForking == false
-
-  let isForking = process.env.HARDHAT_FORK == undefined ? false: true
-
-
-  if( (hre.network.name == 'hardhat' && isForking)
-     || (hre.network.name == 'localhost' && isForking)
-     || (hre.network.name == 'mainnet' && !isForking)  
-     || (hre.network.name == 'bscmainnet' && !isForking) 
-     || (hre.network.name == 'rinkeby' && !isForking) ){
-        return true;
-    } else{
-        return false;
-    }
-
-};
+func.tags = ["11-A1","11","oracle-twap-eth-usd","core","protocol"];
+func.dependencies = ["uniswap"];
+// func.skip = async () => true;

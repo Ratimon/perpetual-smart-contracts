@@ -109,9 +109,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   
 }
 export default func;
-func.tags = ["A-2-01","0-2","position-manager","swap-router","nonfungible-manager","quoter","uniswap",'external'];
+func.tags = ["02-A1","02","position-manager","swap-router","nonfungible-manager","quoter","uniswap",'external'];
 func.dependencies = ["tokens"];
-
 
 // func.skip = async (hre) => (await hre.deployments.getNetworkName()) == 'hardhat'; //skip when it is  hardhat
 // func.skip = async () => true;

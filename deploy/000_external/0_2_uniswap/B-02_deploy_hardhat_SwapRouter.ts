@@ -87,8 +87,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     
 }
 export default func;
-func.tags = ["B-2-02","0-2","swap-router","uniswap",'external'];
-func.dependencies = ["B-2-01"];
+func.tags = ["02-B2","02","swap-router","uniswap",'external'];
+func.dependencies = ["02-B1"];
 
 
 func.skip = async function (hre: HardhatRuntimeEnvironment) {
