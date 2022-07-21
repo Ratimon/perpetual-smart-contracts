@@ -55,12 +55,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
     for(var i in Args){
       log(chalk.yellow( `Argument: ${i} - value: ${Args[i]}`));
-    }
-
-    // await execute(
-    //   deploymentName,{from: deployer, log: true},
-    //   "mint",deployer,parseEther('100000000')
-    //   );      
+    }    
 
     if( network.name != 'hardhat' && ( hre.network.tags.production || hre.network.tags.staging)){
 

@@ -60,7 +60,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       "mint",deployer,parseEther('100000000')
       );      
 
-    if(hre.network.tags.production || hre.network.tags.staging){
+    if( network.name != 'hardhat' && ( hre.network.tags.production || hre.network.tags.staging)){
 
       try {
           
