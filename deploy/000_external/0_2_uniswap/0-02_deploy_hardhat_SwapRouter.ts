@@ -5,7 +5,13 @@ import chalk from 'chalk';
 import {HardhatRuntimeEnvironment} from 'hardhat/types';
 import {DeployFunction} from 'hardhat-deploy/types';
 
+import {
+    abi as SWAP_ROUTER_ABI,
+    bytecode as SWAP_ROUTER_BYTECODE,
+  } from '@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json'
+
 import {utils,} from 'ethers';
+
 
 const { formatUnits,parseEther,parseUnits} = utils;
 
@@ -13,7 +19,7 @@ const { formatUnits,parseEther,parseUnits} = utils;
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     
   const {deployments, getNamedAccounts, network} = hre;
-  const {deploy, execute , log } = deployments;
+  const {deploy, execute ,get, log } = deployments;
   const {deployer} = await getNamedAccounts();
 
   log(chalk.cyan(`.....`));
@@ -30,43 +36,41 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   log("----------------------------------------------------")
 
 
+  const  Args : {[key: string]: any} = {};
+  
+  Args[`factory`] = (await get('UniswapV3Factory')).address;;
+  Args[`WETH9`] = (await get('TokenWETH')).address;
 
-  const  WETHArgs : {[key: string]: any} = {}; 
-  WETHArgs[`tokenName`] = "MockWETH";
-
-  const deploymentName = "TokenWETH"
-  const WETHResult = await deploy(deploymentName,{
-    contract: "MockWeth",
+  const deploymentName = "SwapRouter"
+  const Result = await deploy(deploymentName, {
     from: deployer,
-    args: Object.values(WETHArgs),
+    args: Object.values(Args),
     log: true,
-    skipIfAlreadyDeployed: true}
-  );
+    contract: {
+      abi: SWAP_ROUTER_ABI,
+      bytecode: SWAP_ROUTER_BYTECODE
+    }
+  });
   
   log("------------------ii---------ii---------------------")
   log(`Could be found at ....`)
   log(chalk.yellow(`/deployment/${network.name}/${deploymentName}.json`))
 
-  if (WETHResult.newlyDeployed) {
+  if (Result.newlyDeployed) {
     
-    log(`contract address: ${chalk.green(WETHResult.address)} using ${WETHResult.receipt?.gasUsed} gas`);
+    log(`contract address: ${chalk.green(Result.address)} using ${Result.receipt?.gasUsed} gas`);
 
-    for(var i in WETHArgs){
-      log(chalk.yellow( `Argument: ${i} - value: ${WETHArgs[i]}`));
+    for(var i in Args){
+      log(chalk.yellow( `Argument: ${i} - value: ${Args[i]}`));
     }
-
-    await execute(
-      deploymentName,{from: deployer, log: true},
-      "mint",deployer,parseEther('100000000')
-      );      
 
     if(hre.network.tags.production || hre.network.tags.staging){
 
       try {
           
           await hre.run("verify:verify", {
-              address: WETHResult.address,
-              constructorArguments: Object.values(WETHArgs),
+              address: Result.address,
+              constructorArguments: Object.values(Args),
           });
 
           }
@@ -83,8 +87,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     
 }
 export default func;
-func.tags = ["0-1-01","0-1","weth","tokens",'external'];
-func.dependencies = ["0-1-00"];
+func.tags = ["0-2-02","0-2","swap-router","uniswap",'external'];
+func.dependencies = ["0-2-01"];
 
 
 func.skip = async function (hre: HardhatRuntimeEnvironment) {
